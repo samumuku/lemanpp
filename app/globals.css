@@ -1,0 +1,25 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --radius: 0.5rem;
+
+    /* YOUR LOGO COLORS */
+    --brand-green: #2ca55f; /* The Green Swirl */
+    --brand-orange: #f97316; /* The Flame */
+    --brand-blue: #0ea5e9; /* The Brush Handle */
+  }
+
+  body {
+    @apply bg-white text-slate-900 antialiased;
+  }
+}
+
+/* Create utility classes for your custom colors */
+@theme {
+  --color-brand-green: var(--brand-green);
+  --color-brand-orange: var(--brand-orange);
+  --color-brand-blue: var(--brand-blue);
+}
