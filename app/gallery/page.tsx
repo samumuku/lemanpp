@@ -1,0 +1,193 @@
+"use client";
+
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
+import { ArrowLeftRight, Paintbrush, Home, Building } from "lucide-react";
+
+// --- DATA: PLACEHOLDER PROJECTS ---
+// Once you have real photos, just replace the 'before' and 'after' URLs here.
+const projects = [
+  {
+    id: 1,
+    title: "Rénovation Salon - Villa Nyon",
+    category: "Intérieur",
+    description:
+      "Remise à neuf complète : lissage des murs, peinture mate veloutée et boiseries.",
+    before:
+      "https://images.unsplash.com/photo-1533090161767-e6ffed986c88?q=80&w=1000&auto=format&fit=crop", // Messy room
+    after:
+      "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?q=80&w=1000&auto=format&fit=crop", // Clean room
+  },
+  {
+    id: 2,
+    title: "Façade Immeuble - Lausanne",
+    category: "Extérieur",
+    description:
+      "Nettoyage haute pression, réparation des fissures et peinture façade résistante aux intempéries.",
+    before:
+      "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?q=80&w=1000&auto=format&fit=crop", // Old house
+    after:
+      "https://images.unsplash.com/photo-1600596542815-e32c8ec2205a?q=80&w=1000&auto=format&fit=crop", // Modern house
+  },
+  {
+    id: 3,
+    title: "Chambre à Coucher - Genève",
+    category: "Intérieur",
+    description:
+      "Création d'une ambiance chaleureuse avec une peinture écologique sans odeur.",
+    before:
+      "https://images.unsplash.com/photo-1513694203232-719a280e022f?q=80&w=1000&auto=format&fit=crop", // Before
+    after:
+      "https://images.unsplash.com/photo-1595515106968-43644f80214f?q=80&w=1000&auto=format&fit=crop", // After
+  },
+  {
+    id: 4,
+    title: "Rénovation Bureaux",
+    category: "Commercial",
+    description:
+      "Peinture rapide de locaux commerciaux pour une remise en location.",
+    before:
+      "https://images.unsplash.com/photo-1504307651254-35680f356dfd?q=80&w=1000&auto=format&fit=crop", // Construction
+    after:
+      "https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=1000&auto=format&fit=crop", // Office
+  },
+];
+
+const categories = ["Tous", "Intérieur", "Extérieur", "Commercial"];
+
+export default function GalleryPage() {
+  const [filter, setFilter] = useState("Tous");
+
+  const filteredProjects = projects.filter((project) =>
+    filter === "Tous" ? true : project.category === filter,
+  );
+
+  return (
+    <div className="min-h-screen bg-slate-50 pb-20">
+      {/* --- HEADER --- */}
+      <div className="bg-slate-900 pt-20 pb-24 px-4 text-center">
+        <motion.h1
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="text-4xl md:text-6xl font-bold text-white mb-6"
+        >
+          Nos{" "}
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-green to-brand-blue">
+            Réalisations
+          </span>
+        </motion.h1>
+        <p className="text-slate-300 text-lg max-w-2xl mx-auto">
+          Découvrez la qualité de notre travail à travers nos projets avant /
+          après.
+        </p>
+      </div>
+
+      <div className="container mx-auto px-4 -mt-12 relative z-10">
+        {/* --- FILTERS --- */}
+        <div className="flex flex-wrap justify-center gap-2 md:gap-4 mb-12">
+          {categories.map((cat) => (
+            <button
+              key={cat}
+              onClick={() => setFilter(cat)}
+              className={`px-6 py-2 rounded-full font-bold text-sm transition-all shadow-sm
+                ${
+                  filter === cat
+                    ? "bg-brand-green text-white shadow-brand-green/30"
+                    : "bg-white text-slate-600 hover:bg-slate-100"
+                }`}
+            >
+              {cat}
+            </button>
+          ))}
+        </div>
+
+        {/* --- GRID --- */}
+        <div className="grid md:grid-cols-2 gap-8">
+          <AnimatePresence mode="popLayout">
+            {filteredProjects.map((project) => (
+              <ProjectCard key={project.id} project={project} />
+            ))}
+          </AnimatePresence>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// --- SUB-COMPONENT: PROJECT CARD (WITH TOGGLE) ---
+function ProjectCard({ project }: { project: any }) {
+  const [showBefore, setShowBefore] = useState(false);
+
+  return (
+    <motion.div
+      layout
+      initial={{ opacity: 0, scale: 0.9 }}
+      animate={{ opacity: 1, scale: 1 }}
+      exit={{ opacity: 0, scale: 0.9 }}
+      transition={{ duration: 0.3 }}
+      className="bg-white rounded-2xl overflow-hidden shadow-lg border border-slate-100 group"
+    >
+      {/* Image Container */}
+      <div className="relative h-[300px] w-full bg-slate-200">
+        {/* Toggle Button (Absolute positioned) */}
+        <div className="absolute top-4 right-4 z-20 flex bg-white/90 backdrop-blur-sm rounded-full p-1 shadow-lg border border-white/20">
+          <button
+            onClick={() => setShowBefore(false)}
+            className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all ${!showBefore ? "bg-brand-green text-white" : "text-slate-500 hover:text-slate-900"}`}
+          >
+            APRÈS
+          </button>
+          <button
+            onClick={() => setShowBefore(true)}
+            className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all ${showBefore ? "bg-brand-orange text-white" : "text-slate-500 hover:text-slate-900"}`}
+          >
+            AVANT
+          </button>
+        </div>
+
+        {/* Badge Category */}
+        <div className="absolute top-4 left-4 z-20 bg-slate-900/50 backdrop-blur-md text-white text-xs font-bold px-3 py-1 rounded-md border border-white/20">
+          {project.category}
+        </div>
+
+        {/* The Images */}
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={showBefore ? "before" : "after"}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.4 }}
+            className="absolute inset-0 w-full h-full"
+          >
+            <Image
+              src={showBefore ? project.before : project.after}
+              alt={project.title}
+              fill
+              className="object-cover"
+            />
+            {/* Label Overlay */}
+            <div className="absolute bottom-0 left-0 w-full p-4 bg-gradient-to-t from-black/60 to-transparent">
+              <span
+                className={`inline-block px-2 py-1 rounded text-xs font-bold ${showBefore ? "bg-brand-orange text-white" : "bg-brand-green text-white"}`}
+              >
+                {showBefore ? "ÉTAT ORIGINAL" : "RÉSULTAT FINAL"}
+              </span>
+            </div>
+          </motion.div>
+        </AnimatePresence>
+      </div>
+
+      {/* Content */}
+      <div className="p-6">
+        <h3 className="text-xl font-bold text-slate-900 mb-2">
+          {project.title}
+        </h3>
+        <p className="text-slate-500 text-sm leading-relaxed mb-4">
+          {project.description}
+        </p>
+      </div>
+    </motion.div>
+  );
+}

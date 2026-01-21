@@ -9,6 +9,9 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "Léman Peinture & Rénovation",
   description: "Peinture, plâtrerie et rénovation en Suisse Romande.",
+  icons: {
+    icon: "/logo.jpeg", // This points to the logo in your public folder
+  },
 };
 
 export default function RootLayout({
