@@ -128,30 +128,30 @@ function ProjectCard({ project }: { project: any }) {
       transition={{ duration: 0.3 }}
       className="bg-white rounded-2xl overflow-hidden shadow-lg border border-slate-100 group"
     >
-      {/* Image Container */}
-      <div className="relative h-[300px] w-full bg-slate-200">
-        {/* Toggle Button (Absolute positioned) */}
-        <div className="absolute top-4 right-4 z-20 flex bg-white/90 backdrop-blur-sm rounded-full p-1 shadow-lg border border-white/20">
+      {/* Image Container - Increased height for mobile visibility */}
+      <div className="relative h-[300px] md:h-[350px] w-full bg-slate-200">
+        {/* Toggle Button - Made Larger for Touch Screens */}
+        <div className="absolute top-4 right-4 z-20 flex bg-white/95 backdrop-blur-sm rounded-full p-1.5 shadow-lg border border-white/20">
           <button
             onClick={() => setShowBefore(false)}
-            className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all ${!showBefore ? "bg-brand-green text-white" : "text-slate-500 hover:text-slate-900"}`}
+            className={`px-5 py-2 rounded-full text-xs md:text-sm font-bold transition-all ${!showBefore ? "bg-brand-green text-white" : "text-slate-500 hover:text-slate-900"}`}
           >
             APRÈS
           </button>
           <button
             onClick={() => setShowBefore(true)}
-            className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all ${showBefore ? "bg-brand-orange text-white" : "text-slate-500 hover:text-slate-900"}`}
+            className={`px-5 py-2 rounded-full text-xs md:text-sm font-bold transition-all ${showBefore ? "bg-brand-orange text-white" : "text-slate-500 hover:text-slate-900"}`}
           >
             AVANT
           </button>
         </div>
 
-        {/* Badge Category */}
+        {/* Badge */}
         <div className="absolute top-4 left-4 z-20 bg-slate-900/50 backdrop-blur-md text-white text-xs font-bold px-3 py-1 rounded-md border border-white/20">
           {project.category}
         </div>
 
-        {/* The Images */}
+        {/* Images logic... (Keep the AnimatePresence block from previous code) */}
         <AnimatePresence mode="wait">
           <motion.div
             key={showBefore ? "before" : "after"}
@@ -167,7 +167,6 @@ function ProjectCard({ project }: { project: any }) {
               fill
               className="object-cover"
             />
-            {/* Label Overlay */}
             <div className="absolute bottom-0 left-0 w-full p-4 bg-gradient-to-t from-black/60 to-transparent">
               <span
                 className={`inline-block px-2 py-1 rounded text-xs font-bold ${showBefore ? "bg-brand-orange text-white" : "bg-brand-green text-white"}`}
@@ -179,7 +178,6 @@ function ProjectCard({ project }: { project: any }) {
         </AnimatePresence>
       </div>
 
-      {/* Content */}
       <div className="p-6">
         <h3 className="text-xl font-bold text-slate-900 mb-2">
           {project.title}
@@ -187,6 +185,10 @@ function ProjectCard({ project }: { project: any }) {
         <p className="text-slate-500 text-sm leading-relaxed mb-4">
           {project.description}
         </p>
+        <div className="flex items-center gap-2 text-xs font-medium text-slate-400">
+          <ArrowLeftRight className="w-4 h-4" />
+          Touchez pour comparer
+        </div>
       </div>
     </motion.div>
   );
