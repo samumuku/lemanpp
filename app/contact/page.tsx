@@ -107,7 +107,7 @@ export default function ContactPage() {
                       Zone d'intervention
                     </h3>
                     <p className="text-slate-600">
-                      Nous intervenons au canton de Vaud.
+                      Nous intervenons dans le canton de Vaud.
                     </p>
                   </div>
                 </div>
@@ -120,9 +120,7 @@ export default function ContactPage() {
                 <span className="font-bold text-slate-700">Horaires</span>
               </div>
               <p className="text-sm text-slate-600 ml-8">
-                Lun - Ven : 07h30 - 18h00
-                <br />
-                Samedi : Sur rendez-vous
+                Lun - Ven : Dès 07h30
               </p>
             </div>
           </motion.div>

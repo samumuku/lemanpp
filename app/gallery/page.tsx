@@ -10,25 +10,22 @@ import { ArrowLeftRight, Paintbrush, Home, Building } from "lucide-react";
 const projects = [
   {
     id: 1,
-    title: "Rénovation Salon - Villa Nyon",
+    title: "Rénovation Cuisine - Apartement Lausanne",
     category: "Intérieur",
     description:
-      "Remise à neuf complète : lissage des murs, peinture mate veloutée et boiseries.",
-    before:
-      "https://images.unsplash.com/photo-1533090161767-e6ffed986c88?q=80&w=1000&auto=format&fit=crop", // Messy room
-    after:
-      "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?q=80&w=1000&auto=format&fit=crop", // Clean room
+      "Remise à neuf complète : lissage des murs, peinture, cuisine moderne installée, pose de carrelage.",
+    before: "/photos/before-cuisine.jpeg",
+    after: "/photos/after-cuisine.jpg",
   },
   {
     id: 2,
-    title: "Façade Immeuble - Lausanne",
-    category: "Extérieur",
+    title: "Rénovation Salon - Lausanne",
+    category: "Intérieur",
     description:
-      "Nettoyage haute pression, réparation des fissures et peinture façade résistante aux intempéries.",
-    before:
-      "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?q=80&w=1000&auto=format&fit=crop", // Old house
-    after:
-      "https://images.unsplash.com/photo-1600596542815-e32c8ec2205a?q=80&w=1000&auto=format&fit=crop", // Modern house
+      "Réparation des fissures, peinture, ponçage et parquet rénové.",
+    before: "/photos/before-salon.jpeg",
+    after: "/photos/after-salon.jpg",
+    fit: "contain",
   },
   {
     id: 3,
@@ -116,8 +113,10 @@ export default function GalleryPage() {
 }
 
 // --- SUB-COMPONENT: PROJECT CARD (WITH TOGGLE) ---
+// --- SUB-COMPONENT: PROJECT CARD (WITH BLUR FIX) ---
 function ProjectCard({ project }: { project: any }) {
   const [showBefore, setShowBefore] = useState(false);
+  const currentImage = showBefore ? project.before : project.after;
 
   return (
     <motion.div
@@ -128,10 +127,10 @@ function ProjectCard({ project }: { project: any }) {
       transition={{ duration: 0.3 }}
       className="bg-white rounded-2xl overflow-hidden shadow-lg border border-slate-100 group"
     >
-      {/* Image Container - Increased height for mobile visibility */}
-      <div className="relative h-[300px] md:h-[350px] w-full bg-slate-200">
-        {/* Toggle Button - Made Larger for Touch Screens */}
-        <div className="absolute top-4 right-4 z-20 flex bg-white/95 backdrop-blur-sm rounded-full p-1.5 shadow-lg border border-white/20">
+      {/* Image Container */}
+      <div className="relative h-[300px] md:h-[350px] w-full bg-slate-100 overflow-hidden">
+        {/* Toggle Button */}
+        <div className="absolute top-4 right-4 z-30 flex bg-white/95 backdrop-blur-sm rounded-full p-1.5 shadow-lg border border-white/20">
           <button
             onClick={() => setShowBefore(false)}
             className={`px-5 py-2 rounded-full text-xs md:text-sm font-bold transition-all ${!showBefore ? "bg-brand-green text-white" : "text-slate-500 hover:text-slate-900"}`}
@@ -147,11 +146,11 @@ function ProjectCard({ project }: { project: any }) {
         </div>
 
         {/* Badge */}
-        <div className="absolute top-4 left-4 z-20 bg-slate-900/50 backdrop-blur-md text-white text-xs font-bold px-3 py-1 rounded-md border border-white/20">
+        <div className="absolute top-4 left-4 z-30 bg-slate-900/50 backdrop-blur-md text-white text-xs font-bold px-3 py-1 rounded-md border border-white/20">
           {project.category}
         </div>
 
-        {/* Images logic... (Keep the AnimatePresence block from previous code) */}
+        {/* Images logic */}
         <AnimatePresence mode="wait">
           <motion.div
             key={showBefore ? "before" : "after"}
@@ -161,13 +160,32 @@ function ProjectCard({ project }: { project: any }) {
             transition={{ duration: 0.4 }}
             className="absolute inset-0 w-full h-full"
           >
-            <Image
-              src={showBefore ? project.before : project.after}
-              alt={project.title}
-              fill
-              className="object-cover"
-            />
-            <div className="absolute bottom-0 left-0 w-full p-4 bg-gradient-to-t from-black/60 to-transparent">
+            {/* 1. COUCHE DE FOND (FLOU) - Seulement si mode 'contain' */}
+            {project.fit === "contain" && (
+              <div className="absolute inset-0 z-0">
+                <Image
+                  src={currentImage}
+                  alt="Background blur"
+                  fill
+                  className="object-cover blur-xl scale-110 opacity-60"
+                />
+              </div>
+            )}
+
+            {/* 2. IMAGE PRINCIPALE (NETTE) */}
+            <div className="absolute inset-0 z-10">
+              <Image
+                src={currentImage}
+                alt={project.title}
+                fill
+                className={
+                  project.fit === "contain" ? "object-contain" : "object-cover"
+                }
+              />
+            </div>
+
+            {/* Label Overlay */}
+            <div className="absolute bottom-0 left-0 w-full p-4 bg-gradient-to-t from-black/60 to-transparent z-20">
               <span
                 className={`inline-block px-2 py-1 rounded text-xs font-bold ${showBefore ? "bg-brand-orange text-white" : "bg-brand-green text-white"}`}
               >

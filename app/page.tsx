@@ -2,8 +2,10 @@
 
 import { motion } from "framer-motion";
 import Link from "next/link";
+// Removed unused Image import
 import { Paintbrush, Hammer, Home, CheckCircle2 } from "lucide-react";
 
+// Animation Variants
 const fadeIn = {
   hidden: { opacity: 0, y: 20 },
   visible: { opacity: 1, y: 0 },
@@ -14,11 +16,21 @@ export default function HomePage() {
     <div className="flex flex-col gap-0">
       {/* --- HERO SECTION --- */}
       <section className="relative h-[85vh] flex items-center justify-center bg-slate-900 overflow-hidden">
-        {/* Background Image */}
-        <div className="absolute inset-0 z-0 opacity-50 bg-[url('https://images.unsplash.com/photo-1562259949-001d9f4299b8?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-center" />
-        <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/50 to-slate-900/30 z-0" />
+        {/* 1. NOUVELLE IMAGE DE FOND : Focalisée sur le matériel (Peinture, Rouleau, Bac) */}
+        <div className="absolute inset-0 z-0 opacity-60 bg-[url('https://images.unsplash.com/photo-1604709177595-ee9c2580e9a3?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-center" />
 
-        <div className="relative z-10 container mx-auto px-4 text-center">
+        {/* 2. Filtre dégradé pour que le texte blanc reste lisible */}
+        <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/60 to-slate-900/40 z-10" />
+
+        {/* 3. Texture subtile de pinceau */}
+        <div
+          className="absolute inset-0 z-20 opacity-[0.08] mix-blend-overlay pointer-events-none bg-repeat"
+          style={{
+            backgroundImage: `url('https://www.transparenttextures.com/patterns/brush-strokes.png')`,
+          }}
+        />
+
+        <div className="relative z-30 container mx-auto px-4 text-center">
           <motion.div
             initial="hidden"
             animate="visible"
@@ -26,7 +38,7 @@ export default function HomePage() {
             transition={{ duration: 0.6 }}
             className="flex flex-col items-center"
           >
-            {/* Title: Adjusted text size for mobile (4xl) vs desktop (7xl) */}
+            {/* Title */}
             <h1 className="text-4xl sm:text-5xl md:text-7xl font-bold text-white mb-6 leading-tight drop-shadow-lg">
               L'Art de la <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-green to-brand-blue">
@@ -39,7 +51,7 @@ export default function HomePage() {
               plâtrerie et décoration. Qualité suisse.
             </p>
 
-            {/* Buttons: Stacked on mobile w-full, side-by-side on desktop */}
+            {/* Buttons */}
             <div className="flex flex-col sm:flex-row gap-4 justify-center w-full sm:w-auto px-4">
               <Link
                 href="/contact"
@@ -59,7 +71,6 @@ export default function HomePage() {
       </section>
 
       {/* --- SERVICES SECTION --- */}
-      {/* Reduced padding from py-24 to py-16 for mobile */}
       <section id="services" className="py-16 md:py-24 bg-white">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12 md:mb-16">
@@ -96,10 +107,11 @@ export default function HomePage() {
       <section id="about" className="py-16 md:py-24 bg-slate-50">
         <div className="container mx-auto px-4 flex flex-col md:flex-row items-center gap-8 md:gap-12">
           <div className="md:w-1/2 w-full">
-            <div className="relative h-[300px] md:h-[400px] w-full rounded-2xl overflow-hidden shadow-2xl">
+            <div className="relative h-[400px] md:h-[500px] w-full rounded-2xl overflow-hidden shadow-2xl">
+              {/* IMAGE PROFESSIONNELLE (Celle qu'on a validée juste avant) */}
               <img
-                src="https://images.unsplash.com/photo-1595814433015-e6f5ce69614e?q=80&w=2070&auto=format&fit=crop"
-                alt="Peintre professionnel"
+                src="https://images.unsplash.com/photo-1572025442646-866d16c84a54?q=80&w=2070&auto=format&fit=crop"
+                alt="Matériel de peinture professionnel et nuanciers de couleurs"
                 className="object-cover w-full h-full"
               />
             </div>
