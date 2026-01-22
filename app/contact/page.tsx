@@ -88,10 +88,10 @@ export default function ContactPage() {
                     <h3 className="font-bold text-slate-900">Téléphone</h3>
                     <p className="text-slate-600 mb-1">Du Lundi au Vendredi</p>
                     <a
-                      href="tel:+41XXXXXXXXX"
+                      href="tel:+41798835008"
                       className="text-lg font-bold text-brand-blue hover:underline"
                     >
-                      +41 XX XXX XX XX
+                      +41 79 883 50 08
                     </a>
                   </div>
                 </div>
@@ -103,10 +103,10 @@ export default function ContactPage() {
                   <div>
                     <h3 className="font-bold text-slate-900">Email</h3>
                     <a
-                      href="mailto:contact@lemanpp.ch"
+                      href="mailto:info@lemanpp.ch"
                       className="text-lg font-bold text-brand-blue hover:underline"
                     >
-                      contact@lemanpp.ch
+                      info@lemanpp.ch
                     </a>
                   </div>
                 </div>
@@ -120,7 +120,7 @@ export default function ContactPage() {
                       Zone d'intervention
                     </h3>
                     <p className="text-slate-600">
-                      Genève, Lausanne, Nyon et toute la Côte.
+                      Nous intervenons dans le canton de Vaud.
                     </p>
                   </div>
                 </div>
@@ -133,9 +133,7 @@ export default function ContactPage() {
                 <span className="font-bold text-slate-700">Horaires</span>
               </div>
               <p className="text-sm text-slate-600 ml-8">
-                Lun - Ven : 07h30 - 18h00
-                <br />
-                Samedi : Sur rendez-vous
+                Lun - Ven : Dès 07h30
               </p>
             </div>
           </motion.div>
