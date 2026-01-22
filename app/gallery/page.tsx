@@ -14,8 +14,8 @@ const projects = [
     category: "Intérieur",
     description:
       "Remise à neuf complète : lissage des murs, peinture, cuisine moderne installée, pose de carrelage.",
-    before: "/photos/before-cuisine.jpeg",
-    after: "/photos/after-cuisine.jpg",
+    before: "/photos/before-cuisine.jpg",
+    after: "/photos/after-cuisine.png",
   },
   {
     id: 2,
@@ -23,7 +23,7 @@ const projects = [
     category: "Intérieur",
     description:
       "Réparation des fissures, peinture, ponçage et parquet rénové.",
-    before: "/photos/before-salon.jpeg",
+    before: "/photos/before-salon.jpg",
     after: "/photos/after-salon.jpg",
     fit: "contain",
   },

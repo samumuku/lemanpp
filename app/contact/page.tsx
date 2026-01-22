@@ -5,19 +5,40 @@ import { Phone, Mail, MapPin, Clock, Send, CheckCircle } from "lucide-react";
 import { useState } from "react";
 
 export default function ContactPage() {
-  // Simple state to show a "Success" message after clicking send (for demo purposes)
   const [formStatus, setFormStatus] = useState<
-    "idle" | "submitting" | "success"
+    "idle" | "submitting" | "success" | "error"
   >("idle");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setFormStatus("submitting");
-    // Simulate sending delay
-    setTimeout(() => {
-      setFormStatus("success");
-    }, 1500);
-  };
+
+    const formData = new FormData(e.currentTarget);
+
+    // --- IMPORTANT: PASTE YOUR ACCESS KEY HERE ---
+    // Go to web3forms.com to get one for free.
+    formData.append("access_key", "3631d618-a844-455f-a544-0b84f09f4b45");
+
+    try {
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        body: formData,
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        setFormStatus("success");
+        // Optional: Reset form here if you want
+      } else {
+        console.error("Error:", data);
+        setFormStatus("error");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      setFormStatus("error");
+    }
+  }
 
   return (
     <div className="min-h-screen bg-slate-50 pb-20">
@@ -40,7 +61,7 @@ export default function ContactPage() {
           className="text-slate-300 text-lg max-w-2xl mx-auto"
         >
           Une question ? Un projet de rénovation ? Demandez votre devis gratuit
-          et sans engagement. Réponse sous 48h.
+          et sans engagement.
         </motion.p>
       </div>
 
@@ -53,51 +74,43 @@ export default function ContactPage() {
             transition={{ delay: 0.2 }}
             className="bg-white p-8 md:p-12 rounded-2xl shadow-xl h-full flex flex-col justify-between"
           >
+            {/* Contact Info Block (Same as before) */}
             <div>
               <h2 className="text-2xl font-bold text-slate-900 mb-8">
                 Nos Coordonnées
               </h2>
-
               <div className="space-y-8">
-                {/* Phone */}
                 <div className="flex items-start gap-4">
                   <div className="w-12 h-12 bg-brand-orange/10 rounded-full flex items-center justify-center flex-shrink-0 text-brand-orange">
                     <Phone className="w-6 h-6" />
                   </div>
                   <div>
                     <h3 className="font-bold text-slate-900">Téléphone</h3>
-                    <p className="text-slate-600 mb-1">
-                      Disponible du Lundi au Vendredi
-                    </p>
+                    <p className="text-slate-600 mb-1">Du Lundi au Vendredi</p>
                     <a
-                      href="tel:+41798835008"
+                      href="tel:+41XXXXXXXXX"
                       className="text-lg font-bold text-brand-blue hover:underline"
                     >
-                      +41 79 883 50 08
+                      +41 XX XXX XX XX
                     </a>
                   </div>
                 </div>
 
-                {/* Email */}
                 <div className="flex items-start gap-4">
                   <div className="w-12 h-12 bg-brand-blue/10 rounded-full flex items-center justify-center flex-shrink-0 text-brand-blue">
                     <Mail className="w-6 h-6" />
                   </div>
                   <div>
                     <h3 className="font-bold text-slate-900">Email</h3>
-                    <p className="text-slate-600 mb-1">
-                      Envoyez-nous votre demande
-                    </p>
                     <a
-                      href="mailto:info@lemanpp.ch"
+                      href="mailto:contact@lemanpp.ch"
                       className="text-lg font-bold text-brand-blue hover:underline"
                     >
-                      info@lemanpp.ch
+                      contact@lemanpp.ch
                     </a>
                   </div>
                 </div>
 
-                {/* Location */}
                 <div className="flex items-start gap-4">
                   <div className="w-12 h-12 bg-brand-green/10 rounded-full flex items-center justify-center flex-shrink-0 text-brand-green">
                     <MapPin className="w-6 h-6" />
@@ -107,7 +120,7 @@ export default function ContactPage() {
                       Zone d'intervention
                     </h3>
                     <p className="text-slate-600">
-                      Nous intervenons dans le canton de Vaud.
+                      Genève, Lausanne, Nyon et toute la Côte.
                     </p>
                   </div>
                 </div>
@@ -120,7 +133,9 @@ export default function ContactPage() {
                 <span className="font-bold text-slate-700">Horaires</span>
               </div>
               <p className="text-sm text-slate-600 ml-8">
-                Lun - Ven : Dès 07h30
+                Lun - Ven : 07h30 - 18h00
+                <br />
+                Samedi : Sur rendez-vous
               </p>
             </div>
           </motion.div>
@@ -145,8 +160,7 @@ export default function ContactPage() {
                   Message Envoyé !
                 </h3>
                 <p className="text-slate-500">
-                  Merci de nous avoir contactés. Nous reviendrons vers vous sous
-                  48h.
+                  Merci. Nous vous répondrons sous 48h.
                 </p>
                 <button
                   onClick={() => setFormStatus("idle")}
@@ -157,6 +171,24 @@ export default function ContactPage() {
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-6">
+                {/* Hidden field to prevent spam bots (Honeypot) */}
+                <input
+                  type="checkbox"
+                  name="botcheck"
+                  className="hidden"
+                  style={{ display: "none" }}
+                />
+
+                {/* ASTUCE : J'ai ajouté ce champ caché "subject". 
+                   Comme ça, l'objet de l'email que vous recevez sera toujours clair 
+                   (ex: "Nouveau contact depuis le site").
+                */}
+                <input
+                  type="hidden"
+                  name="subject"
+                  value="Nouveau contact depuis le site web"
+                />
+
                 <div className="grid md:grid-cols-2 gap-6">
                   <div className="space-y-2">
                     <label className="text-sm font-bold text-slate-700">
@@ -165,6 +197,8 @@ export default function ContactPage() {
                     <input
                       required
                       type="text"
+                      // CHANGEMENT ICI : "name" -> "Nom"
+                      name="Nom"
                       placeholder="Jean Dupont"
                       className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-brand-green focus:ring-2 focus:ring-brand-green/20 outline-none transition-all"
                     />
@@ -176,6 +210,8 @@ export default function ContactPage() {
                     <input
                       required
                       type="tel"
+                      // CHANGEMENT ICI : "phone" -> "Téléphone"
+                      name="Telephone"
                       placeholder="079 123 45 67"
                       className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-brand-green focus:ring-2 focus:ring-brand-green/20 outline-none transition-all"
                     />
@@ -189,6 +225,8 @@ export default function ContactPage() {
                   <input
                     required
                     type="email"
+                    // On garde "email", c'est standard et compréhensible
+                    name="email"
                     placeholder="jean.dupont@email.com"
                     className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-brand-green focus:ring-2 focus:ring-brand-green/20 outline-none transition-all"
                   />
@@ -198,11 +236,21 @@ export default function ContactPage() {
                   <label className="text-sm font-bold text-slate-700">
                     Type de projet
                   </label>
-                  <select className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-brand-green focus:ring-2 focus:ring-brand-green/20 outline-none transition-all bg-white">
-                    <option>Peinture Intérieure</option>
-                    <option>Rénovation Façade</option>
-                    <option>Plâtrerie / Cloisons</option>
-                    <option>Autre</option>
+                  {/* CHANGEMENT ICI : "subject" -> "Projet" 
+                      Ainsi dans l'email vous verrez : "Projet : Peinture Intérieure"
+                  */}
+                  <select
+                    name="Projet"
+                    className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-brand-green focus:ring-2 focus:ring-brand-green/20 outline-none transition-all bg-white"
+                  >
+                    <option value="Peinture Intérieure">
+                      Peinture Intérieure
+                    </option>
+                    <option value="Rénovation Façade">Rénovation Façade</option>
+                    <option value="Plâtrerie / Cloisons">
+                      Plâtrerie / Cloisons
+                    </option>
+                    <option value="Autre">Autre</option>
                   </select>
                 </div>
 
@@ -212,11 +260,19 @@ export default function ContactPage() {
                   </label>
                   <textarea
                     required
+                    // "message" -> "Message" (avec majuscule pour faire joli)
+                    name="Message"
                     rows={4}
                     placeholder="Décrivez brièvement votre projet..."
                     className="w-full px-4 py-3 rounded-lg border border-slate-200 focus:border-brand-green focus:ring-2 focus:ring-brand-green/20 outline-none transition-all resize-none"
                   ></textarea>
                 </div>
+
+                {formStatus === "error" && (
+                  <div className="text-red-500 text-sm font-bold text-center">
+                    Une erreur est survenue. Veuillez nous appeler directement.
+                  </div>
+                )}
 
                 <button
                   disabled={formStatus === "submitting"}
