@@ -11,21 +11,21 @@ export default function Navbar() {
 
   const navLinks = [
     { name: "Accueil", href: "/" },
-    { name: "Services", href: "/#services" }, // Added slash for better routing
+    { name: "Services", href: "/#services" },
     { name: "Galerie", href: "/gallery" },
     { name: "À Propos", href: "/#about" },
   ];
 
   return (
     <>
-      <nav className="fixed w-full z-50 bg-white border-b border-gray-100 shadow-sm py-3 transition-all">
+      <nav className="fixed w-full z-50 bg-white/95 backdrop-blur-md border-b border-slate-200/80 shadow-[0_1px_3px_rgba(0,0,0,0.04)] py-3 transition-all">
         <div className="container mx-auto px-4 flex justify-between items-center">
-          {/* LOGO SECTION - Touches area increased for mobile home link */}
+          {/* Logo Section */}
           <Link
             href="/"
             className="flex items-center gap-3 group relative z-50"
           >
-            <div className="relative w-10 h-10 md:w-16 md:h-16 flex-shrink-0">
+            <div className="relative w-10 h-10 md:w-12 md:h-12 flex-shrink-0">
               <Image
                 src="/logo.jpeg"
                 alt="Logo Léman Peinture"
@@ -37,58 +37,58 @@ export default function Navbar() {
               <span className="text-lg md:text-xl font-black text-slate-900 leading-none tracking-tight">
                 Léman Peinture
               </span>
-              <span className="text-xs md:text-sm font-bold text-brand-green leading-none mt-1">
+              <span className="text-xs md:text-sm font-semibold text-brand-green leading-none mt-1">
                 et Rénovation
               </span>
             </div>
           </Link>
 
-          {/* DESKTOP Menu (Hidden on Mobile) */}
-          <div className="hidden md:flex gap-6 items-center">
+          {/* Desktop Nav */}
+          <div className="hidden md:flex gap-7 items-center">
             {navLinks.map((link) => (
               <Link
                 key={link.name}
                 href={link.href}
-                className="text-sm font-bold text-slate-600 hover:text-brand-green transition-colors uppercase tracking-wide"
+                className="text-sm font-semibold text-slate-600 hover:text-slate-950 transition-colors uppercase tracking-wider"
               >
                 {link.name}
               </Link>
             ))}
             <Link
               href="/contact"
-              className="px-5 py-2 bg-gradient-to-r from-brand-green to-brand-blue hover:from-brand-blue hover:to-brand-green text-white text-sm font-bold rounded-full transition-all shadow-md hover:shadow-lg"
+              className="px-5 py-2.5 bg-brand-green hover:bg-emerald-700 text-white text-sm font-semibold rounded-lg transition-all shadow-sm hover:shadow"
             >
               Contact
             </Link>
           </div>
 
-          {/* MOBILE Menu Toggle - Large Touch Target */}
+          {/* Mobile Menu Toggle */}
           <button
             className="md:hidden text-slate-900 p-2 relative z-50 focus:outline-none"
             onClick={() => setIsOpen(!isOpen)}
             aria-label="Toggle Menu"
           >
-            {isOpen ? <X size={28} /> : <Menu size={28} />}
+            {isOpen ? <X size={26} /> : <Menu size={26} />}
           </button>
         </div>
       </nav>
 
-      {/* MOBILE FULL SCREEN MENU OVERLAY */}
+      {/* Mobile Drawer */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, y: -20 }}
+            initial={{ opacity: 0, y: -15 }}
             animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
+            exit={{ opacity: 0, y: -15 }}
             className="fixed inset-0 z-40 bg-white pt-24 px-6 md:hidden flex flex-col h-screen"
           >
-            <div className="flex flex-col gap-6 text-center">
+            <div className="flex flex-col gap-5 text-center">
               {navLinks.map((link) => (
                 <Link
                   key={link.name}
                   href={link.href}
                   onClick={() => setIsOpen(false)}
-                  className="text-2xl font-bold text-slate-800 py-3 border-b border-slate-100 active:text-brand-green"
+                  className="text-xl font-bold text-slate-800 py-3 border-b border-slate-100 active:text-brand-green"
                 >
                   {link.name}
                 </Link>
@@ -96,7 +96,7 @@ export default function Navbar() {
               <Link
                 href="/contact"
                 onClick={() => setIsOpen(false)}
-                className="mt-4 w-full text-center bg-gradient-to-r from-brand-green to-brand-blue text-white py-4 rounded-xl font-bold text-xl shadow-lg active:scale-95 transition-transform"
+                className="mt-6 w-full text-center bg-brand-green hover:bg-emerald-700 text-white py-3.5 rounded-lg font-bold text-lg shadow-sm active:scale-[0.98] transition-all"
               >
                 Demander un devis
               </Link>

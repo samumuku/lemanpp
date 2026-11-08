@@ -275,13 +275,13 @@ export default function ContactPage() {
                 <button
                   disabled={formStatus === "submitting"}
                   type="submit"
-                  className="w-full py-4 bg-brand-green hover:bg-green-600 text-white font-bold rounded-lg transition-all shadow-lg hover:shadow-green-500/25 flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
+                  className="w-full py-3.5 bg-brand-green hover:bg-emerald-700 text-white font-semibold rounded-lg transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
                 >
                   {formStatus === "submitting" ? (
                     "Envoi en cours..."
                   ) : (
                     <>
-                      Envoyer le message <Send className="w-5 h-5" />
+                      Envoyer le message <Send className="w-4 h-4" />
                     </>
                   )}
                 </button>
